@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'features/home/presentation/home_screen.dart';
+import 'core/presentation/main_screen.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Good Drive',
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      theme: AppTheme.lightTheme,
+      home: const MainScreen(),
     );
   }
 }
