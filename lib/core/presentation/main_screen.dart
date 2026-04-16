@@ -5,7 +5,9 @@ import '../../features/wallet/presentation/wallet_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final VoidCallback onLogout;
+
+  const MainScreen({super.key, required this.onLogout});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -14,15 +16,15 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
 
-  final List<Widget> screens = const [
-    HomeScreen(),
-    TripsScreen(),
-    WalletScreen(),
-    ProfileScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> screens = [
+      HomeScreen(),
+      TripsScreen(),
+      WalletScreen(),
+      ProfileScreen(onLogout: widget.onLogout),
+    ];
+
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(

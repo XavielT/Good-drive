@@ -39,55 +39,71 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Good Drive',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 80),
 
-            const SizedBox(height: 30),
-
-            const Text(
-              'Ingresa a tu cuenta',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const Text('Correo o numero de telefono'),
-            TextField(
-              controller: phoneController,
-              decoration: const InputDecoration(
-                labelText: 'Manolo@gmail.com / 809-000-1234',
-                border: OutlineInputBorder(),
+              const Text(
+                'Good Drive',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-            ),
 
-            const SizedBox(height: 15),
+              const SizedBox(height: 10),
 
-            const Text('Contraseña'),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: '********',
-                border: OutlineInputBorder(),
+              const Text(
+                'Ingresa a tu cuenta',
+                style: TextStyle(fontSize: 18),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 30),
 
-            ElevatedButton(
-              onPressed: handleLogin,
-              child: const Text('Iniciar sesión'),
-            ),
+              const Text('Correo o número de teléfono'),
+              const SizedBox(height: 5),
 
-            const SizedBox(height: 10),
+              TextField(
+                controller: phoneController,
+                decoration: const InputDecoration(
+                  hintText: 'ej: 809-000-1234',
+                  border: OutlineInputBorder(),
+                ),
+              ),
 
-            TextButton(
-              onPressed: widget.onToggle,
-              child: const Text('Crear cuenta'),
-            ),
-          ],
+              const SizedBox(height: 20),
+
+              const Text('Contraseña'),
+              const SizedBox(height: 5),
+
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  hintText: '********',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: handleLogin,
+                  child: const Text('Iniciar sesión'),
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              Center(
+                child: TextButton(
+                  onPressed: widget.onToggle,
+                  child: const Text('Crear cuenta'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

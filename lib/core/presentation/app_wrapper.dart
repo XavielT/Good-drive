@@ -41,7 +41,7 @@ class _AppWrapperState extends State<AppWrapper> {
     }
 
     if (isLoggedIn) {
-      return MainScreen();
+      return MainScreen(onLogout: logout);
     } else {
       return AuthScreenWrapper(onLogin: login);
     }

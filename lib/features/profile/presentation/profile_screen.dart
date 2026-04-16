@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final VoidCallback onLogout;
+
+  const ProfileScreen({super.key, required this.onLogout});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(title: const Text('Perfil')),
       body: Center(
-        child: Text('Profile Screen'),
+        child: ElevatedButton(
+          onPressed: onLogout,
+          child: const Text('Cerrar sesión'),
+        ),
       ),
     );
   }
