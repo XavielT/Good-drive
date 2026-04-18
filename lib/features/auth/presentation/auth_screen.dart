@@ -22,15 +22,13 @@ class _AuthScreenState extends State<AuthScreenWithLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: showLogin
-          ? LoginScreen(
-        onToggle: toggleScreen,
-        onLogin: widget.onLogin,
-      )
-          : RegisterScreen(
-        onToggle: toggleScreen,
-      ),
-    );
+    return showLogin
+        ? LoginScreen(
+            onToggle: toggleScreen,
+            onLogin: widget.onLogin,
+          )
+        : RegisterScreen(
+            onToggle: toggleScreen,
+          );
   }
 }
