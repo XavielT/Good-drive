@@ -9,7 +9,7 @@ const kGrayText = Color(0xFF6B7280);
 const kInputBg = Color(0xFFEEEBE7);
 const kDarkToast = Color(0xFF1F2937);
 
-// ─── Logo GoodDrive ─────────────────────────────────────────────────────────
+// ─── Logo Good Drive ────────────────────────────────────────────────────────
 class GoodDriveLogo extends StatelessWidget {
   const GoodDriveLogo({super.key});
 
@@ -29,7 +29,7 @@ class GoodDriveLogo extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         const Text(
-          'GoodDrive',
+          'Good Drive',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,

@@ -105,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    'Comienza tu viaje con GoodDrive hoy.',
+                    'Comienza tu viaje con Good Drive hoy.',
                     style: TextStyle(fontSize: 16, color: kGrayText),
                   ),
                   const SizedBox(height: 30),

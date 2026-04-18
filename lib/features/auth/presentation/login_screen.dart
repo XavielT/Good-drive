@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 6),
               const Text(
-                'Bienvenido de vuelta a GoodDrive.',
+                'Bienvenido de vuelta a Good Drive.',
                 style: TextStyle(fontSize: 16, color: kGrayText),
               ),
               const SizedBox(height: 30),
