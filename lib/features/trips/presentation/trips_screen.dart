@@ -66,7 +66,7 @@ class TripsScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5)),
+          BoxShadow(color: Colors.grey.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 5)),
         ],
         border: Border.all(color: Colors.grey.shade100),
       ),
@@ -90,10 +90,10 @@ class TripsScreen extends StatelessWidget {
                 children: [
                   Text(price, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   Container(
-                    margin: const EdgeInsets.top(4),
+                    margin: const EdgeInsets.only(top: 4),
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
+                      color: statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(status, style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold)),

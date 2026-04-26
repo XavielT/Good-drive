@@ -98,8 +98,8 @@ class _WalletScreenState extends State<WalletScreen> {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      builder: (modalContext) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(modalContext).viewInsets.bottom),
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: const BoxDecoration(
@@ -145,7 +145,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       return;
                     }
 
-                    Navigator.pop(context);
+                    Navigator.pop(modalContext);
                     bool success = await MockDB.requestWithdraw(reqAmount);
                     if (success) {
                       _loadBalances();
@@ -202,7 +202,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 children: [
                   Text(
                     widget.isDriver ? 'Saldo de Viajes' : 'Saldo acumulado',
-                    style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14),
+                    style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 14),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -215,7 +215,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(
