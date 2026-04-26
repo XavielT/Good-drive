@@ -149,7 +149,7 @@ class _PilotHomeScreenState extends State<PilotHomeScreen> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade700,
                       borderRadius: BorderRadius.circular(24),
-                      boxShadow: [BoxShadow(color: Colors.blue.withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 4))],
+                      boxShadow: [BoxShadow(color: Colors.blue.withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 4))],
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -171,9 +171,9 @@ class _PilotHomeScreenState extends State<PilotHomeScreen> {
                     margin: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.95),
+                      color: Colors.white.withValues(alpha: 0.95),
                       borderRadius: BorderRadius.circular(24),
-                      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20, spreadRadius: 5)],
+                      boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, spreadRadius: 5)],
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../core/presentation/app_wrapper.dart';
+import '../../../core/presentation/app_wrapper.dart';
 
 class ProfileScreen extends StatelessWidget {
   final VoidCallback onLogout;
@@ -76,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
                       Switch(
                         value: isPilotMode,
                         onChanged: (val) => onTogglePilotMode(),
-                        activeColor: Colors.green,
+                        activeThumbColor: Colors.green,
                       ),
                     ],
                   ),

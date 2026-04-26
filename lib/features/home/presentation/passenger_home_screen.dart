@@ -60,11 +60,11 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95), // Slight glassmorphism effect
+                color: Colors.white.withValues(alpha: 0.95), // Slight glassmorphism effect
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),
@@ -89,8 +89,8 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
                       ),
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 11.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 11.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
@@ -215,7 +215,7 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
         width: 100,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.green.withOpacity(0.2) : Colors.grey.shade100,
+          color: isSelected ? Colors.green.withValues(alpha: 0.2) : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(20),
           border: isSelected ? Border.all(color: Colors.green, width: 2) : Border.all(color: Colors.transparent, width: 2),
         ),

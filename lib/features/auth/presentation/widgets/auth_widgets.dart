@@ -65,7 +65,7 @@ class AuthSocialButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 12,
               offset: const Offset(0, 2),
             ),
@@ -158,7 +158,7 @@ class AuthOrDivider extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: kGrayText.withOpacity(0.7),
+              color: kGrayText.withValues(alpha: 0.7),
               letterSpacing: 1,
             ),
           ),
@@ -217,7 +217,7 @@ class AuthTextField extends StatelessWidget {
           const TextStyle(fontSize: 15, color: kDarkText),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: kGrayText.withOpacity(0.6), fontSize: 15),
+        hintStyle: TextStyle(color: kGrayText.withValues(alpha: 0.6), fontSize: 15),
         filled: true,
         fillColor: kInputBg,
         suffixIcon: suffixIcon,
@@ -267,7 +267,7 @@ class AuthPrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(100),
           boxShadow: [
             BoxShadow(
-              color: kGreen.withOpacity(0.38),
+              color: kGreen.withValues(alpha: 0.38),
               blurRadius: 18,
               offset: const Offset(0, 6),
             ),
@@ -309,7 +309,7 @@ class AuthToastBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.28),
+            color: Colors.black.withValues(alpha: 0.28),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -321,7 +321,7 @@ class AuthToastBanner extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: BoxDecoration(
-              color: const Color(0xFFF59E0B).withOpacity(0.15),
+              color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(Icons.warning_amber_rounded,

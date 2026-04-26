@@ -213,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextSpan(
                         text: 'Términos de Servicio',
                         style: TextStyle(
-                          color: kGrayText.withOpacity(0.8),
+                          color: kGrayText.withValues(alpha: 0.8),
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -221,7 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextSpan(
                         text: 'Política de Privacidad',
                         style: TextStyle(
-                          color: kGrayText.withOpacity(0.8),
+                          color: kGrayText.withValues(alpha: 0.8),
                           decoration: TextDecoration.underline,
                         ),
                       ),
