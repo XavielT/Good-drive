@@ -6,8 +6,9 @@ import '../../features/profile/presentation/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final VoidCallback onLogout;
+  final bool isDriver;
 
-  const MainScreen({super.key, required this.onLogout});
+  const MainScreen({super.key, required this.onLogout, required this.isDriver});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -15,14 +16,33 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
+  bool _isPilotMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Default to pilot mode if they are a driver for demonstration, or default to passenger. 
+    // Let's default to passenger.
+  }
+
+  void _togglePilotMode() {
+    setState(() {
+      _isPilotMode = !_isPilotMode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      HomeScreen(),
-      TripsScreen(),
-      WalletScreen(),
-      ProfileScreen(onLogout: widget.onLogout),
+      HomeScreen(isPilotMode: _isPilotMode),
+      const TripsScreen(),
+      const WalletScreen(),
+      ProfileScreen(
+        onLogout: widget.onLogout, 
+        isDriver: widget.isDriver,
+        isPilotMode: _isPilotMode,
+        onTogglePilotMode: _togglePilotMode,
+      ),
     ];
 
     return Scaffold(
