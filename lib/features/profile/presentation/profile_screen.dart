@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/presentation/app_wrapper.dart';
 
+import 'driver_registration_screen.dart';
+
 class ProfileScreen extends StatelessWidget {
   final VoidCallback onLogout;
   final bool isDriver;
@@ -16,21 +18,11 @@ class ProfileScreen extends StatelessWidget {
     required this.onTogglePilotMode,
   });
 
-  void _becomeDriver(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isDriver', true);
-    
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('¡Felicidades! Ahora eres conductor.')),
-      );
-      // Restart app flow to re-read state
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const AppWrapper()),
-        (route) => false,
-      );
-    }
+  void _becomeDriver(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const DriverRegistrationScreen()),
+    );
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import '../../trips/presentation/active_trip_screen.dart';
 
 class PassengerHomeScreen extends StatefulWidget {
   const PassengerHomeScreen({super.key});
@@ -176,7 +177,15 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Mostrar BottomSheet simulando ofertas de conductores
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          isScrollControlled: true,
+                          builder: (context) => _buildOffersSheet(),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.greenAccent.shade400,
                         foregroundColor: Colors.black87,
@@ -226,6 +235,82 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
             Text(name, style: TextStyle(color: isSelected ? Colors.green.shade700 : Colors.grey.shade600, fontWeight: FontWeight.bold)),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildOffersSheet() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
+          const SizedBox(height: 20),
+          const Text('Ofertas de conductores', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
+          _buildOfferItem('Roberto Mejía', 'Tesla Model 3', '4.9', '\$145', '2 min', 'https://i.pravatar.cc/100?img=11'),
+          const Divider(),
+          _buildOfferItem('Carlos M.', 'Honda Civic', '4.7', '\$150', '5 min', 'https://i.pravatar.cc/100?img=12'),
+          const Divider(),
+          _buildOfferItem('Elena R.', 'Kia Picanto', '4.8', '\$130', '8 min', 'https://i.pravatar.cc/100?img=5'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOfferItem(String name, String car, String rating, String price, String time, String avatarUrl) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          CircleAvatar(backgroundImage: NetworkImage(avatarUrl), radius: 24),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Row(
+                  children: [
+                    Text(car, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.star, color: Colors.amber, size: 14),
+                    Text(rating, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(price, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.green)),
+              Text(time, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+            ],
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context); // Close bottom sheet
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ActiveTripScreen(isDriver: false)),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.greenAccent.shade400,
+              foregroundColor: Colors.black87,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+            child: const Text('Aceptar', style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
   }

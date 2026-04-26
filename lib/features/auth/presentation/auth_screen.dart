@@ -29,6 +29,7 @@ class _AuthScreenState extends State<AuthScreenWithLogin> {
           )
         : RegisterScreen(
             onToggle: toggleScreen,
+            onLogin: widget.onLogin,
           );
   }
 }

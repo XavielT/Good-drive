@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import '../../trips/presentation/active_trip_screen.dart';
 
 class PilotHomeScreen extends StatefulWidget {
   const PilotHomeScreen({super.key});
@@ -271,7 +272,12 @@ class _PilotHomeScreenState extends State<PilotHomeScreen> {
                             Expanded(
                               flex: 2,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const ActiveTripScreen(isDriver: true)),
+                                  );
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.greenAccent.shade400,
                                   foregroundColor: Colors.black87,

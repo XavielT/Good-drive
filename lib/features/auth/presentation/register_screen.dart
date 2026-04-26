@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'widgets/auth_widgets.dart';
+import '../../../core/data/mock_db.dart';
 
 class RegisterScreen extends StatefulWidget {
   final VoidCallback onToggle;
-  const RegisterScreen({super.key, required this.onToggle});
+  final VoidCallback onLogin;
+  const RegisterScreen({super.key, required this.onToggle, required this.onLogin});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -17,6 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   final _referralCtrl = TextEditingController();
   bool _obscure = true;
   bool _showToast = false;
+  String _selectedRole = 'passenger'; // 'passenger' or 'driver'
   late AnimationController _animCtrl;
   late Animation<double> _anim;
 
@@ -49,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     super.dispose();
   }
 
-  void _handleRegister() {
+  void _handleRegister() async {
     if (_emailCtrl.text.trim().isEmpty || _passwordCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -62,7 +65,28 @@ class _RegisterScreenState extends State<RegisterScreen>
       );
       return;
     }
-    // TODO: implementar lógica de registro
+
+    bool success = await MockDB.register(
+      _emailCtrl.text.trim(),
+      _passwordCtrl.text.trim(),
+      _selectedRole,
+    );
+
+    if (success) {
+      widget.onLogin();
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('El usuario ya existe'),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+      }
+    }
   }
 
   void _socialComingSoon(String method) {
@@ -162,6 +186,56 @@ class _RegisterScreenState extends State<RegisterScreen>
                         size: 20,
                       ),
                       onPressed: () => setState(() => _obscure = !_obscure),
+                    ),
+                  ),
+                  // Selector de Rol
+                  const AuthFieldLabel(label: 'TIPO DE CUENTA'),
+                  const SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedRole = 'passenger'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              decoration: BoxDecoration(
+                                color: _selectedRole == 'passenger' ? Colors.green.shade100 : Colors.transparent,
+                                borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+                              ),
+                              child: Center(
+                                child: Text('Pasajero', style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: _selectedRole == 'passenger' ? Colors.green.shade800 : Colors.grey,
+                                )),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedRole = 'driver'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              decoration: BoxDecoration(
+                                color: _selectedRole == 'driver' ? Colors.blue.shade100 : Colors.transparent,
+                                borderRadius: const BorderRadius.horizontal(right: Radius.circular(12)),
+                              ),
+                              child: Center(
+                                child: Text('Conductor', style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: _selectedRole == 'driver' ? Colors.blue.shade800 : Colors.grey,
+                                )),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 20),

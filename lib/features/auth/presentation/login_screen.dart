@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/auth_widgets.dart';
+import '../../../core/data/mock_db.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onToggle;
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLogin() {
+  void _handleLogin() async {
     if (_emailCtrl.text.trim().isEmpty || _passwordCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -40,7 +41,23 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       return;
     }
-    widget.onLogin();
+
+    final user = await MockDB.login(_emailCtrl.text.trim(), _passwordCtrl.text.trim());
+    if (user != null) {
+      widget.onLogin();
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Credenciales incorrectas'),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        );
+      }
+    }
   }
 
   void _socialComingSoon(String method) {

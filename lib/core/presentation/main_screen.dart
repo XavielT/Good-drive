@@ -35,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       HomeScreen(isPilotMode: _isPilotMode),
-      const TripsScreen(),
-      const WalletScreen(),
+      TripsScreen(isDriver: widget.isDriver),
+      WalletScreen(isDriver: widget.isDriver),
       ProfileScreen(
         onLogout: widget.onLogout, 
         isDriver: widget.isDriver,
