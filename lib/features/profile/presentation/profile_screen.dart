@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import '../../../core/data/mock_db.dart';
 import 'driver_registration_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   final VoidCallback onLogout;
   final bool isDriver;
   final bool isPilotMode;
@@ -16,11 +17,40 @@ class ProfileScreen extends StatelessWidget {
     required this.onTogglePilotMode,
   });
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  Map<String, dynamic>? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  Future<void> _loadUser() async {
+    final user = await MockDB.getCurrentUser();
+    setState(() {
+      _user = user;
+    });
+  }
+
   void _becomeDriver(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const DriverRegistrationScreen()),
     );
+  }
+
+  void _shareReferralCode() {
+    if (_user?['referralCode'] != null) {
+      Clipboard.setData(ClipboardData(text: _user!['referralCode']));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Código copiado al portapapeles')),
+      );
+    }
   }
 
   @override
@@ -40,14 +70,66 @@ class ProfileScreen extends StatelessWidget {
               child: Icon(Icons.person, size: 50),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Usuario de Prueba',
+            Text(
+              _user?['name'] ?? 'Usuario',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              _user?['email'] ?? '',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 40),
             
-            if (isDriver) ...[
+            // Código de referido
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Tu Código de Referido',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            _user?['referralCode'] ?? 'Cargando...',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'monospace',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: _shareReferralCode,
+                          icon: const Icon(Icons.share),
+                          tooltip: 'Copiar código',
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Comparte este código para ganar comisiones en viajes.',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            if (widget.isDriver) ...[
               Card(
                 elevation: 0,
                 color: Colors.grey[200],
@@ -64,8 +146,8 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Switch(
-                        value: isPilotMode,
-                        onChanged: (val) => onTogglePilotMode(),
+                        value: widget.isPilotMode,
+                        onChanged: (val) => widget.onTogglePilotMode(),
                         activeThumbColor: Colors.green,
                       ),
                     ],
@@ -75,7 +157,7 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 20),
             ],
 
-            if (!isDriver) ...[
+            if (!widget.isDriver) ...[
               ElevatedButton.icon(
                 onPressed: () => _becomeDriver(context),
                 icon: const Icon(Icons.drive_eta),
@@ -95,7 +177,7 @@ class ProfileScreen extends StatelessWidget {
             const Spacer(),
 
             ElevatedButton(
-              onPressed: onLogout,
+              onPressed: widget.onLogout,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: Colors.redAccent,

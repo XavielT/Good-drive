@@ -6,7 +6,11 @@ import '../../../core/data/mock_db.dart';
 class RegisterScreen extends StatefulWidget {
   final VoidCallback onToggle;
   final VoidCallback onLogin;
-  const RegisterScreen({super.key, required this.onToggle, required this.onLogin});
+  const RegisterScreen({
+    super.key,
+    required this.onToggle,
+    required this.onLogin,
+  });
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -27,7 +31,9 @@ class _RegisterScreenState extends State<RegisterScreen>
   void initState() {
     super.initState();
     _animCtrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 450));
+      vsync: this,
+      duration: const Duration(milliseconds: 450),
+    );
     _anim = CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut);
 
     Future.delayed(const Duration(milliseconds: 900), () {
@@ -59,8 +65,9 @@ class _RegisterScreenState extends State<RegisterScreen>
           content: const Text('Por favor completa todos los campos'),
           backgroundColor: kDarkToast,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
       return;
@@ -70,6 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen>
       _emailCtrl.text.trim(),
       _passwordCtrl.text.trim(),
       _selectedRole,
+      referralCode: _referralCtrl.text.trim().isNotEmpty
+          ? _referralCtrl.text.trim()
+          : null,
     );
 
     if (success) {
@@ -81,8 +91,9 @@ class _RegisterScreenState extends State<RegisterScreen>
             content: const Text('El usuario ya existe'),
             backgroundColor: Colors.redAccent,
             behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -95,8 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         content: Text('Acceso con $method próximamente disponible'),
         backgroundColor: kDarkToast,
         behavior: SnackBarBehavior.floating,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -147,8 +157,11 @@ class _RegisterScreenState extends State<RegisterScreen>
                       const SizedBox(width: 12),
                       Expanded(
                         child: AuthSocialButton(
-                          icon: const Icon(Icons.phone_android_rounded,
-                              size: 20, color: Color(0xFF3B5BDB)),
+                          icon: const Icon(
+                            Icons.phone_android_rounded,
+                            size: 20,
+                            color: Color(0xFF3B5BDB),
+                          ),
                           label: 'Teléfono',
                           onTap: () => _socialComingSoon('Teléfono'),
                         ),
@@ -201,36 +214,56 @@ class _RegisterScreenState extends State<RegisterScreen>
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: () => setState(() => _selectedRole = 'passenger'),
+                            onTap: () =>
+                                setState(() => _selectedRole = 'passenger'),
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               decoration: BoxDecoration(
-                                color: _selectedRole == 'passenger' ? Colors.green.shade100 : Colors.transparent,
-                                borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+                                color: _selectedRole == 'passenger'
+                                    ? Colors.green.shade100
+                                    : Colors.transparent,
+                                borderRadius: const BorderRadius.horizontal(
+                                  left: Radius.circular(12),
+                                ),
                               ),
                               child: Center(
-                                child: Text('Pasajero', style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: _selectedRole == 'passenger' ? Colors.green.shade800 : Colors.grey,
-                                )),
+                                child: Text(
+                                  'Pasajero',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: _selectedRole == 'passenger'
+                                        ? Colors.green.shade800
+                                        : Colors.grey,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: () => setState(() => _selectedRole = 'driver'),
+                            onTap: () =>
+                                setState(() => _selectedRole = 'driver'),
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               decoration: BoxDecoration(
-                                color: _selectedRole == 'driver' ? Colors.blue.shade100 : Colors.transparent,
-                                borderRadius: const BorderRadius.horizontal(right: Radius.circular(12)),
+                                color: _selectedRole == 'driver'
+                                    ? Colors.blue.shade100
+                                    : Colors.transparent,
+                                borderRadius: const BorderRadius.horizontal(
+                                  right: Radius.circular(12),
+                                ),
                               ),
                               child: Center(
-                                child: Text('Conductor', style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: _selectedRole == 'driver' ? Colors.blue.shade800 : Colors.grey,
-                                )),
+                                child: Text(
+                                  'Conductor',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: _selectedRole == 'driver'
+                                        ? Colors.blue.shade800
+                                        : Colors.grey,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -247,15 +280,20 @@ class _RegisterScreenState extends State<RegisterScreen>
                       color: const Color(0xFFF0FDF4),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                          color: const Color(0xFFBBF7D0), width: 1.5),
+                        color: const Color(0xFFBBF7D0),
+                        width: 1.5,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.verified_user_outlined,
-                                color: kGreenDark, size: 18),
+                            const Icon(
+                              Icons.verified_user_outlined,
+                              color: kGreenDark,
+                              size: 18,
+                            ),
                             const SizedBox(width: 6),
                             const Expanded(
                               child: Text(
@@ -268,8 +306,11 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 ),
                               ),
                             ),
-                            const Icon(Icons.card_giftcard_outlined,
-                                color: kGrayText, size: 20),
+                            const Icon(
+                              Icons.card_giftcard_outlined,
+                              color: kGrayText,
+                              size: 20,
+                            ),
                           ],
                         ),
                         const SizedBox(height: 10),
@@ -277,9 +318,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                           controller: _referralCtrl,
                           hint: 'Ingresa tu código de bono',
                           style: const TextStyle(
-                              fontSize: 14,
-                              color: kDarkText,
-                              fontFamily: 'monospace'),
+                            fontSize: 14,
+                            color: kDarkText,
+                            fontFamily: 'monospace',
+                          ),
                         ),
                         const SizedBox(height: 8),
                         const Text(
@@ -304,8 +346,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                       onTap: widget.onToggle,
                       child: RichText(
                         text: const TextSpan(
-                          style:
-                              TextStyle(fontSize: 14, color: kGrayText),
+                          style: TextStyle(fontSize: 14, color: kGrayText),
                           children: [
                             TextSpan(text: '¿Ya tienes una cuenta? '),
                             TextSpan(
@@ -328,11 +369,13 @@ class _RegisterScreenState extends State<RegisterScreen>
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         style: const TextStyle(
-                            fontSize: 12, color: Color(0xFF9CA3AF)),
+                          fontSize: 12,
+                          color: Color(0xFF9CA3AF),
+                        ),
                         children: [
                           const TextSpan(
-                              text:
-                                  'Al crear una cuenta, aceptas nuestros '),
+                            text: 'Al crear una cuenta, aceptas nuestros ',
+                          ),
                           TextSpan(
                             text: 'Términos de Servicio',
                             style: TextStyle(
