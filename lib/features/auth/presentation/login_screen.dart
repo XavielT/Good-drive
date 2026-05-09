@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/auth_widgets.dart';
-import '../../../core/data/mock_db.dart';
+import '../../../core/blocs/auth_bloc.dart';
+import '../../../core/utils/validators.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onToggle;
@@ -29,35 +31,39 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin() async {
-    if (_emailCtrl.text.trim().isEmpty || _passwordCtrl.text.trim().isEmpty) {
+    final emailError = Validators.validateEmail(_emailCtrl.text.trim());
+    final passwordError = Validators.validatePassword(_passwordCtrl.text.trim());
+
+    if (emailError != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Por favor completa todos los campos'),
+          content: Text(emailError),
           backgroundColor: kDarkToast,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       );
       return;
     }
 
-    final user = await MockDB.login(_emailCtrl.text.trim(), _passwordCtrl.text.trim());
-    if (user != null) {
-      widget.onLogin();
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Credenciales incorrectas'),
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-        );
-      }
+    if (passwordError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(passwordError),
+          backgroundColor: kDarkToast,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      );
+      return;
     }
+
+    context.read<AuthBloc>().add(
+      AuthLoginRequested(
+        _emailCtrl.text.trim(),
+        _passwordCtrl.text.trim(),
+      ),
+    );
   }
 
   void _socialComingSoon(String method) {

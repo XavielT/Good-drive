@@ -1,30 +1,26 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:good_drive_app/main.dart';
+import 'package:good_drive_app/core/data/repositories/auth_repository.dart';
+import 'package:good_drive_app/core/data/repositories/trip_repository.dart';
+import 'package:good_drive_app/core/data/services/auth_service.dart';
+import 'package:good_drive_app/core/data/services/trip_service.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App builds without crashing', (WidgetTester tester) async {
+    // Create mock services
+    final authService = AuthService();
+    final tripService = TripService();
+    final authRepository = AuthRepository(authService);
+    final tripRepository = TripRepository(tripService);
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp(
+      authRepository: authRepository,
+      tripRepository: tripRepository,
+    ));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the app builds
+    expect(find.byType(MaterialApp), findsOneWidget);
   });
 }

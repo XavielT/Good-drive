@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import '../../../core/data/services/location_service.dart';
 import '../../trips/presentation/active_trip_screen.dart';
 
 class PassengerHomeScreen extends StatefulWidget {
@@ -13,6 +14,23 @@ class PassengerHomeScreen extends StatefulWidget {
 class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
   int proposedPrice = 150;
   String selectedRide = 'Sedán';
+  LatLng? _currentLocation;
+  bool _isLoadingLocation = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    setState(() => _isLoadingLocation = true);
+    final location = await LocationService.getCurrentLocation();
+    setState(() {
+      _currentLocation = location ?? const LatLng(18.4719, -69.9325); // Default to Santo Domingo
+      _isLoadingLocation = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +39,8 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
         children: [
           // Background Map
           FlutterMap(
-            options: const MapOptions(
-              initialCenter: LatLng(18.4719, -69.9325), // Santo Domingo
+            options: MapOptions(
+              initialCenter: _currentLocation ?? const LatLng(18.4719, -69.9325),
               initialZoom: 15.0,
             ),
             children: [
@@ -30,13 +48,14 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.good_drive',
               ),
-              const MarkerLayer(
+              MarkerLayer(
                 markers: [
-                  Marker(
-                    point: LatLng(18.4719, -69.9325),
-                    child: Icon(Icons.location_on, color: Colors.blue, size: 40),
-                  ),
-                  Marker(
+                  if (_currentLocation != null)
+                    Marker(
+                      point: _currentLocation!,
+                      child: const Icon(Icons.my_location, color: Colors.blue, size: 40),
+                    ),
+                  const Marker(
                     point: LatLng(18.4820, -69.9390), // Agora Mall approx
                     child: Icon(Icons.location_on, color: Colors.green, size: 40),
                   ),
@@ -82,9 +101,12 @@ class _PassengerHomeScreenState extends State<PassengerHomeScreen> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Ubicación actual', style: TextStyle(fontSize: 12, color: Colors.grey)),
-                            Text('Av. Winston Churchill', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          children: [
+                            const Text('Ubicación actual', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                            Text(
+                              _isLoadingLocation ? 'Obteniendo ubicación...' : 'Tu ubicación',
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
                           ],
                         ),
                       ),

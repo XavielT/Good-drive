@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/auth_widgets.dart';
-import '../../../core/data/mock_db.dart';
+import '../../../core/blocs/auth_bloc.dart';
+import '../../../core/data/models/user_model.dart';
+import '../../../core/utils/validators.dart';
 
 class RegisterScreen extends StatefulWidget {
   final VoidCallback onToggle;
@@ -59,10 +62,14 @@ class _RegisterScreenState extends State<RegisterScreen>
   }
 
   void _handleRegister() async {
-    if (_emailCtrl.text.trim().isEmpty || _passwordCtrl.text.trim().isEmpty) {
+    final emailError = Validators.validateEmail(_emailCtrl.text.trim());
+    final passwordError = Validators.validatePassword(_passwordCtrl.text.trim());
+    final referralError = Validators.validateReferralCode(_referralCtrl.text.trim());
+
+    if (emailError != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Por favor completa todos los campos'),
+          content: Text(emailError),
           backgroundColor: kDarkToast,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -73,31 +80,45 @@ class _RegisterScreenState extends State<RegisterScreen>
       return;
     }
 
-    bool success = await MockDB.register(
-      _emailCtrl.text.trim(),
-      _passwordCtrl.text.trim(),
-      _selectedRole,
-      referralCode: _referralCtrl.text.trim().isNotEmpty
-          ? _referralCtrl.text.trim()
-          : null,
-    );
-
-    if (success) {
-      widget.onLogin();
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('El usuario ya existe'),
-            backgroundColor: Colors.redAccent,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+    if (passwordError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(passwordError),
+          backgroundColor: kDarkToast,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-        );
-      }
+        ),
+      );
+      return;
     }
+
+    if (referralError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(referralError),
+          backgroundColor: kDarkToast,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+      return;
+    }
+
+    context.read<AuthBloc>().add(
+      AuthRegisterRequested(
+        email: _emailCtrl.text.trim(),
+        password: _passwordCtrl.text.trim(),
+        role: _selectedRole == 'driver' ? UserRole.driver : UserRole.passenger,
+        referralCode: _referralCtrl.text.trim().isNotEmpty
+            ? _referralCtrl.text.trim()
+            : null,
+        name: _emailCtrl.text.trim().split('@')[0],
+      ),
+    );
   }
 
   void _socialComingSoon(String method) {

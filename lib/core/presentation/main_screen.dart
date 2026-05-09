@@ -3,6 +3,7 @@ import '../../features/home/presentation/home_screen.dart';
 import '../../features/trips/presentation/trips_screen.dart';
 import '../../features/wallet/presentation/wallet_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
+import 'connectivity_banner.dart';
 
 class MainScreen extends StatefulWidget {
   final VoidCallback onLogout;
@@ -46,7 +47,14 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
-      body: screens[currentIndex],
+      body: Column(
+        children: [
+          const ConnectivityBanner(),
+          Expanded(
+            child: screens[currentIndex],
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
