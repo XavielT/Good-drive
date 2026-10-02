@@ -20,11 +20,14 @@ void main() async {
   // Load environment variables
   await dotenv.load(fileName: ".env");
 
-  // Initialize Firebase
-  await Firebase.initializeApp();
-
-  // Initialize notification service
-  await NotificationService.initialize();
+  // Initialize Firebase and Notifications
+  try {
+    await Firebase.initializeApp();
+    await NotificationService.initialize();
+  } catch (e) {
+    print('Failed to initialize Firebase: $e');
+    print('Please run `flutterfire configure` to set up your Firebase project.');
+  }
 
   // Initialize services
   final authService = AuthService();
